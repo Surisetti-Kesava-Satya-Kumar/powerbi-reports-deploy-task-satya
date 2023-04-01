@@ -1,0 +1,27 @@
+
+name: Deploy to workspace
+on:
+  workflow_dispatch
+jobs:
+  Deploy-Asset:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v19
+        with:
+          separator: ","
+          quotepath: false
+      - name: Power BI Workspace Deploy
+        uses: nathangiusti/Power-BI-Workspace-Deploy@v1.2
+        with:
+          files: ${{ steps.changed-files.outputs.all_modified_files }}
+          separator: ","
+          tenant_id: "84f1e4ea-8554-43e1-8709-f0b8589ea118"
+          config_file: ".github/config/workspace-deploy-config.yaml"
+        env:
+          CLIENT_ID: cloud_user_p_6084de04@realhandsonlabs.com
+          CLIENT_SECRET: AhkTqgG9ttlLsBW8%5NB
